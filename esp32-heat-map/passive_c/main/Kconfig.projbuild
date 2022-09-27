@@ -1,0 +1,108 @@
+menu "ESP32 CSI Tool Config"
+
+    config WIFI_CHANNEL
+        int "WiFi Channel"
+        default 6
+        help
+            Select the WiFi channel to listen to passively. In North America, valid channels are {1,2,3,...,10,11}.
+			
+	config TARGET_MAC_ADDRESS
+		string "Target MAC address"
+		default "0"
+		help
+			Provide MAC address that will be scanned for, with all other addresses being rejected. A target address of "0" will not reject addresses.
+
+    config SHOULD_COLLECT_CSI
+        bool "Should this ESP32 collect and print CSI data?"
+        default "y"
+        help
+            Allowing only a single ESP32 to collect CSI will likely increase the sampling frequency of your experiments.
+
+    config SHOULD_COLLECT_ONLY_LLTF
+        depends on SHOULD_COLLECT_CSI
+        bool "(Advanced users only) Should we only collect LLTF?"
+        default "y"
+        help
+            Each CSI frame can contain CSI either calculated through
+            (1) legacy long training field (LLTF),
+            (2) high throughput LTF (HT-LTF) and/or
+            (3) space-time block code HT-LTF (STBC-HT-LTF).
+            However, not all CSI frames have HT-LTF or STBC-HT-LTF while all CSI frame have LLTF.
+            For beginners collecting only LLTF is the best option while advanced users can handle issues such as
+            (1) HT-LTF or STBC-HT-LTF being missing, and
+            (2) possible decreases in sampling rate due to serial connection saturation.
+            [Advanced Users]: I cannot always help with these advanced issues,
+            but if you have ideas on improvements to these issues please share!
+
+    config SEND_CSI_TO_SERIAL
+        depends on SHOULD_COLLECT_CSI
+        bool "Send CSI data to Serial"
+        default "y"
+        help
+            Sending data through serial (to a computer) can take time and buffer space.
+            If you are storing to an SD card, it may be useful to deselect this option.
+
+    config SEND_CSI_TO_SD
+        depends on SHOULD_COLLECT_CSI
+        bool "Send CSI data to SD"
+        default "n"
+        help
+            Sending data to an SD card can take time and buffer space.
+            If your ESP32 does not have an SD card, there is no reason to use this feature.
+            If you do though, the program will be recognize this and not attempt writing to the SD card.
+endmenu
+
+menu "LED Configuration"
+
+    config BLINK_GPIO
+        int "Blink GPIO number"
+        range 0 34
+        default 13
+        help
+            GPIO number (IOxx) to blink on and off.
+
+            Some GPIOs are used for other purposes (flash connections, etc.) and cannot be used to blink.
+
+            GPIOs 35-39 are input-only so cannot be used as outputs.
+
+endmenu
+
+menu "I2C Configuration"
+
+	menu "I2C Slave"
+        config I2C_SLAVE_SCL
+            int "SCL GPIO Num"
+            default 22
+            help
+                GPIO number for I2C Slave clock line.
+
+        config I2C_SLAVE_SDA
+            int "SDA GPIO Num"
+            default 23
+            help
+                GPIO number for I2C Slave data line.
+
+        config I2C_SLAVE_PORT_NUM
+            int "Port Number"
+            default 0
+            help
+                Port number for I2C Slave device.
+
+        config I2C_SLAVE_ADDRESS
+            hex "ESP Slave Address"
+            default 0x28
+            help
+                Hardware Address of I2C Slave Port.
+    endmenu
+
+endmenu
+
+menu "GPIO Configuration"
+
+	config GPIO_INPUT_PIN
+        int "Input Pin from Master"
+        default 14
+        help
+            Pin number on ESP32 to be used for receiving signals from master device to initiate simultaneous data collection across all peripherals.
+
+endmenu
