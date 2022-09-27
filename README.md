@@ -1,1 +1,1 @@
-# capstone_area_28
+# Capstone Team 26: Spot & Find
