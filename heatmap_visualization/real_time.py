@@ -9,11 +9,13 @@ import time
 import random
 
 from matplotlib.patches import Circle
-from scipy.ndimage.filters import gaussian_filter
+from scipy.ndimage import gaussian_filter
 import matplotlib.ticker as mtick
 from enum import IntEnum
 import csv
 import datetime as dt
+
+CSV_READ_FILE = r"C:\\Users\\njboe\Desktop\\Capstone\Spot-Find\\heatmap_visualization\data_points_2022-03-28 09_30_26.258499.csv"
 
 class Value(IntEnum):
     latitude = 0
@@ -54,8 +56,8 @@ def print_ports():
 
 def read_serial():
     plt.subplots(figsize=(9.5, 7.5), sharex='all', sharey='all')
-    fields = ["latitude", "longitude", "Wi-Fi RSSI", "RSSI", "SNR", "packet_num"]
-    filename = "data_points_" + str(dt.datetime.now()) + ".csv"
+    fields = ["latitude", "longitude", "wifiRSSI_1", "wifiRSSI_2", "SNR", "packet_num"]
+    filename = "data_points_.csv"
     print("Filename:", filename)
     entries = 0
     unique_pts = 0
@@ -68,8 +70,8 @@ def read_serial():
     ### if you decide to use csv data to input,
     # change the file name for use_csv_lines to the file of data you want to use,
     # and change use_csv_data to True
-    use_csv_data = False
-    csv_data = use_csv_lines("data_points_2022-03-15 09:48:07.083579.csv")
+    use_csv_data = True
+    csv_data = use_csv_lines(CSV_READ_FILE)
 
     # opens a csv file to write to
     with open(filename, "w") as csvfile:
@@ -80,7 +82,7 @@ def read_serial():
 
         # reads the serial monitor, change the port that it reads from as needed
         # based on the ports outputted from print_ports, change the port number
-        ser = serial.Serial("/dev/cu.usbserial-1420", 9600) ### change port number as needed
+        # ser = serial.Serial("/dev/cu.usbserial-1420", 9600) ### change port number as needed
 
         line = ""
 
@@ -94,12 +96,13 @@ def read_serial():
             try:
                 start_time = time.time()
                 # gets the bytes available at the input queue
-                bytes_to_read = ser.inWaiting()
+                # bytes_to_read = ser.inWaiting()
+                bytes_to_read = False # I, Noah, put this in
             except IOError:
                 raise IOError()
             if bytes_to_read or use_csv_data:
                 # read the bytes and print it out:
-                line = line + ser.read(bytes_to_read).decode("utf-8")
+                # line = line + ser.read(bytes_to_read).decode("utf-8")
                 if use_csv_data:
                     if len(csv_data) == 0:
                         print("Data finished")
@@ -282,7 +285,6 @@ def plot_csv(filename, sigma):
         img, extent = myplot(x, y, sigma)
         # ax.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
         # ax.xaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-
         title_str = "Heatmap Data Visualization with Sigma = " + str(sigma)
         plt.title(title_str)
         plt.xlabel("Latitude")
@@ -297,8 +299,8 @@ def plot_csv(filename, sigma):
         plt.show()
 
 if __name__ == "__main__":
-    print_ports()
-    # use_csv_lines("data_points_2022-03-15 09:48:07.083579.csv")
+    # print_ports()
+    use_csv_lines(CSV_READ_FILE)
     read_serial()
     #print(np.random.random((100, 100)))
     #plot_csv("data_points_2022-03-15 09:48:07.083579.csv", 48)
