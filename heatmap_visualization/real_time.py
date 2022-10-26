@@ -15,6 +15,7 @@ from enum import IntEnum
 import csv
 import datetime as dt
 
+# this is a test 
 CSV_READ_FILE = r"C:\\Users\\njboe\Desktop\\Capstone\Spot-Find\\heatmap_visualization\data_points_2022-03-28 09_30_26.258499.csv"
 
 class Value(IntEnum):
