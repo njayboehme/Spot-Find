@@ -2,11 +2,12 @@ import pandas as pd
 import gmaps
 import gmaps.datasets
 
+
 ### google maps section
 gmaps.configure(api_key='AIzaSyBE_CHJPnOl4lfluoP3zJVyiKfAS9etF3M')  # configure key
 
 # need to define project name as a file
-lat_long_df = pd.read_csv('/Users/sarahquan/Em/BYU/BYU_2021_Fall/ECEn_475/Matplotlib_example/data_points.csv')
+lat_long_df = pd.read_csv(r"C:\Users\\njboe\Downloads\data_points_2022-03-28 09_30_26.258499.csv")
 
 # remove null and duplicate values
 lat_long_df = lat_long_df[~lat_long_df['latitude'].isnull()]
@@ -18,7 +19,7 @@ print(lat_long_df['latitude'], lat_long_df['longitude'])
 #lat_long_df = lat_long_df[lat_long_df['Arithmetic Mean'] >= 0]
 
 locations = lat_long_df[['latitude', 'longitude']]
-weights = pd.to_numeric(lat_long_df['Wi-Fi RSSI']).apply(lambda x: 1.9 * (x + 120))
+weights = pd.to_numeric(lat_long_df['wifiRSSI_1']).apply(lambda x: 1.9 * (x + 120))
 print(weights)
 print(locations)
 heatmap_layer = gmaps.heatmap_layer(locations, weights=weights)

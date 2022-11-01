@@ -17,7 +17,7 @@ void setup() {
   // initialize SX1262 with default settings
   int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false);
 
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     //Serial.println(F("success!"));
   } else {
     //Serial.print(F("failed, code "));
@@ -46,7 +46,7 @@ void loop() {
    //uint32_t packet_counter_rec = (byteArr[12] << 24) | (byteArr[13] << 16) | (byteArr[14] << 8) | byteArr[15];
    uint8_t packet_counter_rec = byteArr[12];
 
-  if (state == ERR_NONE) {
+  if (state == RADIOLIB_ERR_NONE) {
     // packet was successfully received
     //Serial.println(F("success!"));
     Serial.print("*");
@@ -70,10 +70,10 @@ void loop() {
     Serial.print(packet_counter_rec);
     Serial.print("\r\n");
 
-  } else if (state == ERR_RX_TIMEOUT) {
+  } else if (state == RADIOLIB_ERR_RX_TIMEOUT) {
     // timeout occurred while waiting for a packet
 
-  } else if (state == ERR_CRC_MISMATCH) {
+  } else if (state == RADIOLIB_ERR_CRC_MISMATCH) {
     // packet was received, but is malformed
 
   } else {

@@ -22,8 +22,7 @@
 // DIO1 pin:  D40 
 // NRST pin:  D44 
 // BUSY pin:  D39 
-SX1262 radio = new Module(D36, D40, D44, D39); 
-
+SX1262 radio = new Module(D36, D40, D44, D39);
 
 // Hardware Serial Port for GPS
 #define GPSSerial Serial1 
@@ -57,7 +56,7 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed){
 
     int state = radio.transmit(byteArr, 8);
    
-  if (state == ERR_NONE) { 
+  if (state == RADIOLIB_ERR_NONE) { 
 
     // the packet was successfully transmitted 
 
@@ -74,7 +73,7 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed){
 
  
 
-  } else if (state == ERR_PACKET_TOO_LONG) { 
+  } else if (state == RADIOLIB_ERR_PACKET_TOO_LONG) { 
 
     // the supplied packet was longer than 256 bytes  
 
@@ -82,7 +81,7 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed){
 
  
 
-  } else if (state == ERR_TX_TIMEOUT) { 
+  } else if (state == RADIOLIB_ERR_TX_TIMEOUT) { 
 
     // timeout occured while transmitting packet 
 
@@ -136,9 +135,9 @@ void setup() {
    
 
   // initialize SX1262 with default settings 
-  Serial.print(F("[SX1262] Initializing ... ")); 
+  Serial.print(F("[SX1262] Initializing ... "));
   int state = radio.begin(903.9, 250.0, 9, 5, 0x34, 20, 10, 0, false); 
-  if (state == ERR_NONE) { 
+  if (state == RADIOLIB_ERR_NONE) { 
     Serial.println(F("success!")); 
   } else {
     Serial.print(F("failed, code "));
