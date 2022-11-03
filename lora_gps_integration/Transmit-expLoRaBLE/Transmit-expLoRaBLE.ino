@@ -14,13 +14,16 @@
     https://github.com/jgromes/RadioLib/wiki/Default-configuration#sx126x---lora-modem 
     For full API reference, see the GitHub Pages 
      https://jgromes.github.io/RadioLib/ 
+
+     Download the example code here for a transmitter/receiver for LoRa to LoRa comms
+     https://learn.sparkfun.com/tutorials/sparkfun-explorable-hookup-guide/peer-to-peer-example
 */ 
 
 
 // SX1262 has the following connections: 
 // NSS pin:   D36 
 // DIO1 pin:  D40 
-// NRST pin:  D44 
+// NRESET pin:  D44 
 // BUSY pin:  D39 
 SX1262 radio = new Module(D36, D40, D44, D39);
 
@@ -106,10 +109,10 @@ void setup() {
 
  /* GPS Setup
   */
-   GPS.begin(9600);
-   // uncomment this line to turn on RMC (recommended minimum) and GGA (fix data) including altitude 
-   GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA); 
-   // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800 
+  GPS.begin(9600);
+  // uncomment this line to turn on RMC (recommended minimum) and GGA (fix data) including altitude 
+  GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA); 
+  // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800 
 
   // uncomment this line to turn on only the "minimum recommended" data 
   //GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCONLY); 
@@ -136,7 +139,8 @@ void setup() {
 
   // initialize SX1262 with default settings 
   Serial.print(F("[SX1262] Initializing ... "));
-  int state = radio.begin(903.9, 250.0, 9, 5, 0x34, 20, 10, 0, false); 
+  // carrier freq, bandwidth, spreading factor, coding rate denominator, syncWord, power, preambleLength, TCXP reference voltage, useRegulatorLDO
+  int state = radio.begin(903.9, 250.0, 9, 5, 0x34, 20, 10, 0, false);
   if (state == RADIOLIB_ERR_NONE) { 
     Serial.println(F("success!")); 
   } else {
