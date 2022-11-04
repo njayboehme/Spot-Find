@@ -3,13 +3,15 @@
 
 #include <RadioLib.h>
 
+// See this website for the receiver example code
+// https://learn.sparkfun.com/tutorials/sparkfun-explorable-hookup-guide/peer-to-peer-example
 // SX1262 has the following connections:
 // NSS pin:   10
 // DIO1 pin:  2
 // NRST pin:  3
 // BUSY pin:  9
 //SX1262 radio = new Module(10, 2, 3, 9);
-SX1262 radio = new Module(D36, D40, D44, D39);
+SX1262 radio = new Module(D36, D40, D44, D39, SPI1);
 
 void setup() {
   Serial.begin(9600);
@@ -18,10 +20,10 @@ void setup() {
   int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false);
 
   if (state == RADIOLIB_ERR_NONE) {
-    //Serial.println(F("success!"));
+    Serial.println(F("success!"));
   } else {
-    //Serial.print(F("failed, code "));
-    //Serial.println(state);
+    Serial.print(F("failed, code "));
+    Serial.println(state);
     while (true);
   }
 }
@@ -72,13 +74,13 @@ void loop() {
 
   } else if (state == RADIOLIB_ERR_RX_TIMEOUT) {
     // timeout occurred while waiting for a packet
-
+    Serial.println(F("timeout!"));
   } else if (state == RADIOLIB_ERR_CRC_MISMATCH) {
     // packet was received, but is malformed
-
+    Serial.println(F("CRC error!"));
   } else {
     // some other error occurred
-//     Serial.print(F("failed, code "));
-//     Serial.println(state);
+    Serial.print(F("failed, code "));
+    Serial.println(state);
   }
 }

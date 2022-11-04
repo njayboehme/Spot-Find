@@ -25,7 +25,7 @@
 // DIO1 pin:  D40 
 // NRESET pin:  D44 
 // BUSY pin:  D39 
-SX1262 radio = new Module(D36, D40, D44, D39);
+SX1262 radio = new Module(D36, D40, D44, D39, SPI1);
 
 // Hardware Serial Port for GPS
 #define GPSSerial Serial1 
