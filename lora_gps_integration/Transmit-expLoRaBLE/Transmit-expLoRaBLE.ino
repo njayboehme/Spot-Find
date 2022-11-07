@@ -34,7 +34,7 @@ SX1262 radio = new Module(D36, D40, D44, D39, SPI1);
 Adafruit_GPS GPS(&GPSSerial); 
 // Set GPSECHO to 'false' to turn off echoing the GPS data to the Serial console 
 // Set to 'true' if you want to debug and listen to the raw GPS sentences 
-#define GPSECHO false 
+#define GPSECHO false
 
 uint32_t timer = millis(); 
 
@@ -42,23 +42,21 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed){
 
 //    lat_fixed = 0xFFAAFFAA;
 //    lng_fixed = 0xCCBBCCBB;
-    Serial.print(F("[SX1262] Transmitting packet ... ")); 
-    Serial.print("GPS fix: "); Serial.print((int)GPS.fix);
-    Serial.print (" quality: "); Serial.println((int)GPS.fixquality);
-    uint8_t lat_1MSB = (lat_fixed & 0xFF000000) >> 24;
-    uint8_t lat_2MSB = (lat_fixed & 0x00FF0000) >> 16;
-    uint8_t lat_3MSB = (lat_fixed & 0x0000FF00) >> 8;
-    uint8_t lat_4MSB = (lat_fixed & 0x000000FF) >> 0;
-    uint8_t lng_1MSB = (lng_fixed & 0xFF000000) >> 24;
-    uint8_t lng_2MSB = (lng_fixed & 0x00FF0000) >> 16;
-    uint8_t lng_3MSB = (lng_fixed & 0x0000FF00) >> 8;
-    uint8_t lng_4MSB = (lng_fixed & 0x000000FF) >> 0;
-     
-    byte byteArr[] = {lat_1MSB, lat_2MSB, lat_3MSB, lat_4MSB,
-      lng_1MSB, lng_2MSB, lng_3MSB, lng_4MSB}; 
-
-    int state = radio.transmit(byteArr, 8);
-   
+  Serial.print(F("[SX1262] Transmitting packet ... ")); 
+  Serial.print("GPS fix: "); Serial.print((int)GPS.fix);
+  Serial.print (" quality: "); Serial.println((int)GPS.fixquality);
+  uint8_t lat_1MSB = (lat_fixed & 0xFF000000) >> 24;
+  uint8_t lat_2MSB = (lat_fixed & 0x00FF0000) >> 16;
+  uint8_t lat_3MSB = (lat_fixed & 0x0000FF00) >> 8;
+  uint8_t lat_4MSB = (lat_fixed & 0x000000FF) >> 0;
+  uint8_t lng_1MSB = (lng_fixed & 0xFF000000) >> 24;
+  uint8_t lng_2MSB = (lng_fixed & 0x00FF0000) >> 16;
+  uint8_t lng_3MSB = (lng_fixed & 0x0000FF00) >> 8;
+  uint8_t lng_4MSB = (lng_fixed & 0x000000FF) >> 0;
+    
+  byte byteArr[] = {lat_1MSB, lat_2MSB, lat_3MSB, lat_4MSB, lng_1MSB, lng_2MSB, lng_3MSB, lng_4MSB}; 
+  int state = radio.transmit(byteArr, 8);
+  
   if (state == RADIOLIB_ERR_NONE) { 
 
     // the packet was successfully transmitted 
@@ -115,7 +113,7 @@ void setup() {
   // 9600 NMEA is the default baud rate for Adafruit MTK GPS's- some use 4800 
 
   // uncomment this line to turn on only the "minimum recommended" data 
-  //GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCONLY); 
+  // GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCONLY); 
   // For parsing data, we don't suggest using anything but either RMC only or RMC+GGA since 
   // the parser doesn't care about other sentences at this time 
   // Set the update rate 
