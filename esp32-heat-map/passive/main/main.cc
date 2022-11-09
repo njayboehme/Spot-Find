@@ -12,7 +12,6 @@
 #include "driver/gpio.h"
 #include "sdkconfig.h"
 
-#include <stdio.h>
 #include "esp_log.h"
 #include "driver/i2c.h"
 

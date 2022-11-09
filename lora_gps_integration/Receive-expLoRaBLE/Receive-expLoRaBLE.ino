@@ -20,9 +20,9 @@ void setup() {
   int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false);
 
   if (state == RADIOLIB_ERR_NONE) {
-    Serial.println(F("success!"));
+    Serial.println(F("init success!"));
   } else {
-    Serial.print(F("failed, code "));
+    Serial.print(F("init failed, code "));
     Serial.println(state);
     while (true);
   }
@@ -40,13 +40,13 @@ void loop() {
   // Receive data as a byte array.
   byte byteArr[13];
   int state = radio.receive(byteArr, 13);
-   int32_t lat_fixed_recovered = (byteArr[0] << 24) | (byteArr[1] << 16) | (byteArr[2] << 8) | byteArr[3];
-   int32_t lng_fixed_recovered = (byteArr[4] << 24) | (byteArr[5] << 16) | (byteArr[6] << 8) | byteArr[7];
-   for(uint8_t i = 0; i < 4; i++){
-    rssi_union.rssi_rec_arr[i] = byteArr[i + 8]; 
-   }
-   //uint32_t packet_counter_rec = (byteArr[12] << 24) | (byteArr[13] << 16) | (byteArr[14] << 8) | byteArr[15];
-   uint8_t packet_counter_rec = byteArr[12];
+  int32_t lat_fixed_recovered = (byteArr[0] << 24) | (byteArr[1] << 16) | (byteArr[2] << 8) | byteArr[3];
+  int32_t lng_fixed_recovered = (byteArr[4] << 24) | (byteArr[5] << 16) | (byteArr[6] << 8) | byteArr[7];
+  for(uint8_t i = 0; i < 4; i++){
+    rssi_union.rssi_rec_arr[i] = byteArr[i + 8];
+  }
+  //uint32_t packet_counter_rec = (byteArr[12] << 24) | (byteArr[13] << 16) | (byteArr[14] << 8) | byteArr[15];
+  uint8_t packet_counter_rec = byteArr[12];
 
   if (state == RADIOLIB_ERR_NONE) {
     // packet was successfully received

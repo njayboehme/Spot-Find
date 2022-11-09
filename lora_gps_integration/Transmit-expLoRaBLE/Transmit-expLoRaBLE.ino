@@ -140,11 +140,12 @@ void setup() {
   // initialize SX1262 with default settings 
   Serial.print(F("[SX1262] Initializing ... "));
   // carrier freq, bandwidth, spreading factor, coding rate denominator, syncWord, power, preambleLength, TCXP reference voltage, useRegulatorLDO
-  int state = radio.begin(903.9, 250.0, 9, 5, 0x34, 20, 10, 0, false);
+  // OG: int state = radio.begin(903.9, 250.0, 9, 5, 0x34, 20, 10, 0, false);
+  int state = radio.begin(915.0, 250.0, 9, 5, 0x34, 20, 10, 0, false);
   if (state == RADIOLIB_ERR_NONE) { 
-    Serial.println(F("success!")); 
+    Serial.println(F("init success!")); 
   } else {
-    Serial.print(F("failed, code "));
+    Serial.print(F("init failed, code "));
     Serial.println(state); 
     while (true); 
   } 
@@ -182,7 +183,7 @@ void loop() {
     
     Serial.print("Satellites: "); Serial.println((int)GPS.satellites);
     Serial.print("Latitude: "); Serial.println(lat_fixed);
-    Serial.println(lng_fixed);
+    Serial.print("Longitude: "); Serial.println(lng_fixed);
   }
 
 }  
