@@ -19,7 +19,7 @@ float phases_2[num_phases_aug];
 const int data_split = 32;
 
 // Initialize LoRa radio
-SX1262 radio = new Module(D36, D40, D44, D39); 
+SX1262 radio = new Module(D36, D40, D44, D39, SPI1); 
 // Hardware Serial Port for GPS
 #define GPSSerial Serial1 
 
@@ -62,7 +62,7 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed) {
     
     int state = radio.transmit(byteArr, 13);
   
-  if (state == ERR_NONE) { 
+  if (state == RADIOLIB_ERR_NONE) { 
 
     // the packet was successfully transmitted 
     Serial.println(F("success!")); 
@@ -71,14 +71,14 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed) {
     Serial.print(radio.getDataRate()); 
     Serial.println(F(" bps")); 
 
-  } else if (state == ERR_PACKET_TOO_LONG) { 
+  } else if (state == RADIOLIB_ERR_PACKET_TOO_LONG) { 
 
     // the supplied packet was longer than 256 bytes  
     Serial.println(F("too long!")); 
 
  
 
-  } else if (state == ERR_TX_TIMEOUT) { 
+  } else if (state == RADIOLIB_ERR_TX_TIMEOUT) { 
     // timeout occured while transmitting packet 
     Serial.println(F("timeout!")); 
   } else { 
@@ -104,8 +104,8 @@ void setup()
   GPSSerial.println(PMTK_Q_RELEASE); 
   
   // init LoRa radio with default settings
-  int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false); 
-  if (state == ERR_NONE) { 
+  int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false); // Check this
+  if (state == RADIOLIB_ERR_NONE) { 
     Serial.println(F("success!")); 
   } else {
     Serial.print(F("failed, code "));

@@ -219,7 +219,7 @@ def read_serial():
                         print("Total number of unique pts:", unique_pts)
                         print("\n")
                         if entries > 10:
-                            plt.savefig("plot_" + str(dt.datetime.now()) + ".png")
+                            # plt.savefig("plot_" + str(dt.datetime.now()) + ".png")
                             entries = 0
 
                         plt.pause(0.01)
@@ -256,10 +256,10 @@ def plot_csv(filename, sigma):
             if len(line) >= 3:
                 location_x.append(float(line[Value.latitude]))
                 location_y.append(float(line[Value.longitude]))
-            if len(line) >= 3 and "nan" not in line[Value.wifiRSSI] and float(line[Value.latitude]) not in x and float(line[Value.longitude]) not in y:
+            if len(line) >= 3 and "nan" not in line[Value.wifiRSSI_1] and float(line[Value.latitude]) not in x and float(line[Value.longitude]) not in y:
                 print("new lat and long:", line[Value.latitude], line[Value.longitude])
                 #print("valid line:", line)
-                num_pts = 0.4 * 3 ** (.135 * (120 + int(float(line[Value.wifiRSSI]))))
+                num_pts = 0.4 * 3 ** (.135 * (120 + int(float(line[Value.wifiRSSI_1]))))
                 print("num_pts:", num_pts)
                 if num_pts > 10000: # capping at 10000 points, since Wi-Fi RSSI values rare
                     num_pts = 10000
@@ -304,7 +304,7 @@ if __name__ == "__main__":
     use_csv_lines(CSV_READ_FILE)
     read_serial()
     #print(np.random.random((100, 100)))
-    #plot_csv("data_points_2022-03-15 09:48:07.083579.csv", 48)
+    # plot_csv(CSV_READ_FILE, 48)
 
     ### uncomment read_serial for real-time testing, or the plot_csv line with the correct csv file to plot a heatmap of data points
 
