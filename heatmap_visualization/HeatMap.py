@@ -171,12 +171,52 @@ class HeatMap():
 
 
     '''
-    '''
-    def useSerial(self):
-        pass
 
     '''
+    def useSerial(self):
+        unique_pts = 0
+        entries = 0
+        line = ""
+        ser = serial.Serial("/dev/cu.usbserial-1420", 9600) ### change port number as needed
+        try:
+            bytes_to_read = ser.inWaiting()
+        except IOError:
+            raise IOError()
+        
+        line = line + ser.read(bytes_to_read).decode("utf-8")
+
+        if "\r\n" in line and "*" in line:
+            output = line[line.index("*") + 1:line.index("\r\n")]
+            output_arr = output.split(",")
+
+            if len(output_arr) > 1:
+                most_recent_x, most_recent_y = self.getRecentValues(output_arr)
+            
+            if len(output_arr) > 2 and ("nan" not in output_arr[WIFI_RSSI_1] or "nan" not in output_arr[WIFI_RSSI_2]):
+                if self.first_plot:
+                    self.x = np.array([most_recent_x - self.bounds, most_recent_x + self.bounds])
+                    self.y = np.array([most_recent_y - self.bounds, most_recent_y + self.bounds])
+                    self.first_plot = False
+
+                extent_array = self.updateBounds(most_recent_x, most_recent_y)
+                is_duplicate = ((most_recent_x in self.x) or (most_recent_y in self.y))
+                rssi_avg = self.getRSSIAvg(output_arr)
+
+                if not is_duplicate:
+                    unique_pts += 1
+                    entries += 1
+                    self.addProportionalPoints(rssi_avg, most_recent_x, most_recent_y)
+                heatmap = self.getHeatMap()
+        return extent_array, heatmap
+                
+
+
     '''
-    def getDataPoints(self):
-        pass
+    This will print the available ports on your computer. This is used when 
+    running useSerial.
+    '''
+    def printPorts(self):
+        ports = serial.tools.list_ports.comports()
+        for port, desc, hwid in sorted(ports):
+            print("{}: {} [{}]".format(port, desc, hwid))
 
