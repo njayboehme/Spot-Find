@@ -56,7 +56,7 @@ def print_ports():
         print("{}: {} [{}]".format(port, desc, hwid))
 
 def read_serial():
-    plt.subplots(figsize=(9.5, 7.5), sharex='all', sharey='all')
+    # plt.subplots(figsize=(9.5, 7.5), sharex='all', sharey='all')
     fields = ["latitude", "longitude", "wifiRSSI_1", "wifiRSSI_2", "SNR", "packet_num"]
     filename = "data_points_.csv"
     print("Filename:", filename)
