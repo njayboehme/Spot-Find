@@ -1,13 +1,7 @@
-import datetime
-import matplotlib.pyplot as plt
 import numpy as np
-import matplotlib.cm as cm
 import serial.tools.list_ports
 import serial
-import time
-from enum import IntEnum
 import csv
-import datetime as dt
 from scipy.ndimage import gaussian_filter
 
 LATITUDE = 0
@@ -34,11 +28,11 @@ class HeatMap():
 
     '''
     This is the function to call when using a CSV file to read the data 
-    from (see csv files under heatmap_visualization).
+    from a csv (see csv files under heatmap_visualization).
     '''
     def useCSV(self):
-        entries = 0
-        unique_pts = 0
+        # entries = 0
+        # unique_pts = 0
         # Initialize these so we can return at the end
         extent_array = None
         heatmap = None
@@ -69,8 +63,8 @@ class HeatMap():
                 rssi_avg = self.getRSSIAvg(output_arr)
 
                 if not is_duplicate:
-                    unique_pts += 1
-                    entries += 1
+                    # unique_pts += 1
+                    # entries += 1
                     self.addProportionalPoints(rssi_avg, most_recent_x, most_recent_y)
                 heatmap = self.getHeatMap()
         return extent_array, heatmap
@@ -161,6 +155,7 @@ class HeatMap():
             self.x = np.append(self.x, most_recent_x)
             self.y = np.append(self.y, most_recent_y)
     
+
     '''
     This creates the heatmap. Note, the transpose is returned to get the direction right
     '''
@@ -171,11 +166,12 @@ class HeatMap():
 
 
     '''
-
+    This method will read from the serial monitor on Arduino and then create a heatmap. 
+    Note, the serial monitor in Arduino has to be closed so this program can read from it (see TP-002 from Team 28)
     '''
     def useSerial(self):
-        unique_pts = 0
-        entries = 0
+        # unique_pts = 0
+        # entries = 0
         line = ""
         ser = serial.Serial("/dev/cu.usbserial-1420", 9600) ### change port number as needed
         try:
@@ -203,8 +199,8 @@ class HeatMap():
                 rssi_avg = self.getRSSIAvg(output_arr)
 
                 if not is_duplicate:
-                    unique_pts += 1
-                    entries += 1
+                    # unique_pts += 1
+                    # entries += 1
                     self.addProportionalPoints(rssi_avg, most_recent_x, most_recent_y)
                 heatmap = self.getHeatMap()
         return extent_array, heatmap
