@@ -3,6 +3,8 @@
 #include <Adafruit_GPS.h>
 #include <RadioLib.h> 
 
+// This is for the Transmitter
+
 static uint8_t packet_counter = 0;
 
 union {
@@ -33,34 +35,34 @@ uint32_t timer = millis();
 
 void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed) {
 
-    Serial.print(F("[SX1262] Transmitting packet ... ")); 
-    Serial.print("GPS fix: "); Serial.print((int)GPS.fix);
-    Serial.print (" quality: "); Serial.println((int)GPS.fixquality);
-    uint8_t lat_1MSB = (lat_fixed & 0xFF000000) >> 24;
-    uint8_t lat_2MSB = (lat_fixed & 0x00FF0000) >> 16;
-    uint8_t lat_3MSB = (lat_fixed & 0x0000FF00) >> 8;
-    uint8_t lat_4MSB = (lat_fixed & 0x000000FF) >> 0;
-    uint8_t lng_1MSB = (lng_fixed & 0xFF000000) >> 24;
-    uint8_t lng_2MSB = (lng_fixed & 0x00FF0000) >> 16;
-    uint8_t lng_3MSB = (lng_fixed & 0x0000FF00) >> 8;
-    uint8_t lng_4MSB = (lng_fixed & 0x000000FF) >> 0;
-        
-    byte byteArr[] = {lat_1MSB, lat_2MSB, lat_3MSB, lat_4MSB,
-      lng_1MSB, lng_2MSB, lng_3MSB, lng_4MSB,
-       phase_union.bytes_array[0], 
-       phase_union.bytes_array[1], 
-       phase_union.bytes_array[2],
-       phase_union.bytes_array[3],
-       packet_counter
-      //  (packet_counter & 0xFF000000) >> 24,
-      //   (packet_counter & 0x00FF0000) >> 16,
-      //    (packet_counter & 0x0000FF00) >> 8,
-      //     (packet_counter & 0x000000FF) >> 0
-       }; 
-    Serial.print("Packet number: ");
-    Serial.println(packet_counter++);
-    
-    int state = radio.transmit(byteArr, 13);
+  Serial.print(F("[SX1262] Transmitting packet ... ")); 
+  Serial.print("GPS fix: "); Serial.print((int)GPS.fix);
+  Serial.print (" quality: "); Serial.println((int)GPS.fixquality);
+  uint8_t lat_1MSB = (lat_fixed & 0xFF000000) >> 24;
+  uint8_t lat_2MSB = (lat_fixed & 0x00FF0000) >> 16;
+  uint8_t lat_3MSB = (lat_fixed & 0x0000FF00) >> 8;
+  uint8_t lat_4MSB = (lat_fixed & 0x000000FF) >> 0;
+  uint8_t lng_1MSB = (lng_fixed & 0xFF000000) >> 24;
+  uint8_t lng_2MSB = (lng_fixed & 0x00FF0000) >> 16;
+  uint8_t lng_3MSB = (lng_fixed & 0x0000FF00) >> 8;
+  uint8_t lng_4MSB = (lng_fixed & 0x000000FF) >> 0;
+      
+  byte byteArr[] = {lat_1MSB, lat_2MSB, lat_3MSB, lat_4MSB,
+    lng_1MSB, lng_2MSB, lng_3MSB, lng_4MSB,
+      phase_union.bytes_array[0], 
+      phase_union.bytes_array[1], 
+      phase_union.bytes_array[2],
+      phase_union.bytes_array[3],
+      packet_counter
+    //  (packet_counter & 0xFF000000) >> 24,
+    //   (packet_counter & 0x00FF0000) >> 16,
+    //    (packet_counter & 0x0000FF00) >> 8,
+    //     (packet_counter & 0x000000FF) >> 0
+      }; 
+  Serial.print("Packet number: ");
+  Serial.println(packet_counter++);
+  
+  int state = radio.transmit(byteArr, 13);
   
   if (state == RADIOLIB_ERR_NONE) { 
 
@@ -104,7 +106,8 @@ void setup()
   GPSSerial.println(PMTK_Q_RELEASE); 
   
   // init LoRa radio with default settings
-  int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false); // Check this
+  int state = radio.begin(915.0, 250.0, 9, 5, 0x34, 20, 10, 0, false); // Check this
+  // int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false);
   if (state == RADIOLIB_ERR_NONE) { 
     Serial.println(F("success!")); 
   } else {
@@ -173,6 +176,11 @@ void loop()
             lng_fixed = GPS.longitude_fixed;
             current_state = data_send_st;
           }
+        }
+        else {
+          lat_fixed = 0xFFAAFFAA;
+          lng_fixed = 0xCCBBCCBB;
+          current_state = data_send_st;
         }
         break;
       }

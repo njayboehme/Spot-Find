@@ -40,8 +40,8 @@ uint32_t timer = millis();
 
 void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed){
 
-//    lat_fixed = 0xFFAAFFAA;
-//    lng_fixed = 0xCCBBCCBB;
+  // lat_fixed = 0xFFAAFFAA;
+  // lng_fixed = 0xCCBBCCBB;
   Serial.print(F("[SX1262] Transmitting packet ... ")); 
   Serial.print("GPS fix: "); Serial.print((int)GPS.fix);
   Serial.print (" quality: "); Serial.println((int)GPS.fixquality);

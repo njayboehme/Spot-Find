@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 file(MAKE_DIRECTORY
-  "C:/Users/njboe/esp/esp-idf/components/bootloader/subproject"
+  "C:/Espressif/frameworks/esp-idf-v4.4.3/components/bootloader/subproject"
   "C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader"
   "C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader-prefix"
   "C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader-prefix/tmp"

@@ -1,6 +1,6 @@
 /* Automatically generated file; DO NOT EDIT */
 /* Espressif IoT Development Framework Linker Script */
-/* Generated from: C:\Users\njboe\esp\esp-idf\components\esp_system\ld\esp32\sections.ld.in */
+/* Generated from: C:\Espressif\frameworks\esp-idf-v4.4.3\components\esp_system\ld\esp32\sections.ld.in */
 
 /*
  * SPDX-FileCopyrightText: 2021 Espressif Systems (Shanghai) CO LTD
@@ -358,8 +358,8 @@ SECTIONS
     _bss_start = ABSOLUTE(.);
 
     *(.bss .bss.*)
-    *(.ext_ram.bss .ext_ram.bss.*)
     *(.dynbss .dynsbss .gnu.linkonce.b .gnu.linkonce.b.* .gnu.linkonce.sb .gnu.linkonce.sb.* .gnu.linkonce.sb2 .gnu.linkonce.sb2.* .sbss .sbss.* .sbss2 .sbss2.* .scommon .share.mem)
+    *(.ext_ram.bss .ext_ram.bss.*)
     *(COMMON)
     _bt_bss_start = ABSOLUTE(.);
     *libbt.a:(.bss .bss.* COMMON)
@@ -549,6 +549,25 @@ SECTIONS
     . = ALIGN (8);
     _heap_start = ABSOLUTE(.);
   } > dram0_0_seg
+
+  /** This section will be used by the debugger and disassembler to get more information
+    * about raw data present in the code.
+    * Indeed, it may be required to add some padding at some points in the code
+    * in order to align a branch/jump destination on a particular bound.
+    * Padding these instructions will generate null bytes that shall be
+    * interpreted as data, and not code by the debugger or disassembler.
+    * This section will only be present in the ELF file, not in the final binary
+    * For more details, check GCC-212
+    */
+  .xt.prop 0 :
+  {
+    KEEP (*(.xt.prop .gnu.linkonce.prop.*))
+  }
+
+  .xt.lit 0 :
+  {
+    KEEP (*(.xt.lit .gnu.linkonce.p.*))
+  }
 }
 
 ASSERT(((_iram_end - ORIGIN(iram0_0_seg)) <= LENGTH(iram0_0_seg)),

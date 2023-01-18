@@ -24,7 +24,7 @@
 #ifdef CONFIG_WIFI_CHANNEL
 #define WIFI_CHANNEL CONFIG_WIFI_CHANNEL
 #else
-#define WIFI_CHANNEL 6
+#define WIFI_CHANNEL 9
 #endif
 
 #ifdef CONFIG_SHOULD_COLLECT_CSI
@@ -314,7 +314,7 @@ void passive_init() {
     };
 
     curChannel = WIFI_CHANNEL;
-    //curChannel = 4;
+    // curChannel = 4;
 
     esp_wifi_set_promiscuous(true);
     esp_wifi_set_promiscuous_filter(&filt);

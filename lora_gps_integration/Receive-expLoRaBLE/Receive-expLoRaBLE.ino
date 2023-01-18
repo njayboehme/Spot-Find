@@ -19,7 +19,7 @@ void setup() {
   // initialize SX1262 with default settings
   // OG Settings
   // int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false);
-  int state = radio.begin(903.9, 250.0, 9, 5, 0x34, 20, 10, 0, false);
+  int state = radio.begin(915.0, 250.0, 9, 5, 0x34, 20, 10, 0, false);
 
   if (state == RADIOLIB_ERR_NONE) {
     Serial.println(F("init success!"));
@@ -57,7 +57,7 @@ void loop() {
     Serial.print("*");
     // print the data of the packet
     Serial.print(lat_fixed_recovered); 
-    Serial.print(",");
+    Serial.print(",");              
     Serial.print(lng_fixed_recovered);  
     Serial.print(",");
     Serial.print(rssi_union.rssi_rec);  

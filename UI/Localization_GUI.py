@@ -8,11 +8,11 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 from matplotlib import style
 import matplotlib.cm as cm
 import sys, os
-sys.path.append(os.path.abspath("Spot-Find")) # This adds Spot-Find to the path which will let us import the HeatMap Class
+sys.path.append(os.getcwd()) # This adds Spot-Find to the path which will let us import the HeatMap Class
 from heatmap_visualization.HeatMap import HeatMap
 
 R_D = "Run Diagnostics"
-EXE = "Execute"
+EXE = "Display Heat Map"
 EXIT = "Exit"
 INIT_TITLE = "Signal Localization Start-Up"
 HEAT_MAP_TITLE = "Heat Map"
@@ -53,7 +53,7 @@ class StartPage(tk.Frame):
         diagnosticsButton = ttk.Button(self, text=R_D, command=lambda: controller.showFrame(DiagnosticsPage))
         diagnosticsButton.pack(fill='x')
 
-        heatMapButton = ttk.Button(self, text="Execute Heat Map", command=lambda: controller.showFrame(HeatMapPage))
+        heatMapButton = ttk.Button(self, text=EXE, command=lambda: controller.showFrame(HeatMapPage))
         heatMapButton.pack(fill='x')
         
         exitButton = ttk.Button(self, text=EXIT, command=controller.destroy)

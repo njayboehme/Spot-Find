@@ -157,7 +157,7 @@ class HeatMap():
     
 
     '''
-    This creates the heatmap. Note, the transpose is returned to get the direction right
+    This creates the heatmap. Note, the transpose is returned to get the orientation right
     '''
     def getHeatMap(self, num_bins=1000):
         heatmap, xedges, yedges = np.histogram2d(self.x, self.y, bins=num_bins)
