@@ -82,7 +82,7 @@
 4637	4950	6952430358485663	esp-idf/esp_rom/CMakeFiles/__idf_esp_rom.dir/patches/esp_rom_tjpgd.c.obj	d80197f66b94393f
 4500	4958	6952430358814788	esp-idf/esp_rom/CMakeFiles/__idf_esp_rom.dir/patches/esp_rom_efuse.c.obj	f81d0a81dddc7560
 4534	4997	6952430359273619	esp-idf/esp_rom/CMakeFiles/__idf_esp_rom.dir/patches/esp_rom_uart.c.obj	4a3afd901d53d128
-7	74	0	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
+8	76	0	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
 4653	5033	6952430359662515	esp-idf/log/CMakeFiles/__idf_log.dir/log_noos.c.obj	16d20b8feb300749
 4705	5070	6952430359861981	esp-idf/main/CMakeFiles/__idf_main.dir/bootloader_start.c.obj	25d8c1ed546e10a6
 5034	5332	6952430362614618	esp-idf/log/liblog.a	e92516a466c7cbc5
@@ -99,10 +99,10 @@
 8743	9240	6952430401404451	bootloader.elf	a9c284986899776c
 9241	9943	6952430408655101	.bin_timestamp	6139f9ed9b5070af
 9241	9943	6952430408655101	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/.bin_timestamp	6139f9ed9b5070af
-7	74	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
-4	14315	6952437903404520	build.ninja	1bddb06898ea2ee1
-3	14385	6952437903404520	build.ninja	1bddb06898ea2ee1
-16	204	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
-16	204	0	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
-7	75	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
-7	75	0	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
+8	76	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
+3	15001	6969730021902463	build.ninja	1bddb06898ea2ee1
+4	18872	6969730021902463	build.ninja	1bddb06898ea2ee1
+20	223	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
+20	223	0	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
+9	78	0	esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45
+9	78	0	C:/Users/njboe/Desktop/Capstone/Spot-Find/esp32-heat-map/passive/build/bootloader/esp-idf/esptool_py/CMakeFiles/bootloader_check_size	429ebf2ac5a6ff45

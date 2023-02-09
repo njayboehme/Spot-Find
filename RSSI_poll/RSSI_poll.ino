@@ -12,7 +12,7 @@ union {
     uint8_t bytes_array[4];
 } phase_union;
 
-TwoWire myWire(D16 , D17);
+TwoWire myWire(D16 , D17); // SDA and SCL line on LoRa
 const int DATA_SIZE = 255;
 byte data_buffer[DATA_SIZE];
 const int num_phases_aug = 65;
@@ -38,6 +38,7 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed) {
   Serial.print(F("[SX1262] Transmitting packet ... ")); 
   Serial.print("GPS fix: "); Serial.print((int)GPS.fix);
   Serial.print (" quality: "); Serial.println((int)GPS.fixquality);
+  Serial.print(" RSSI: "); Serial.println(phase_union.double_var);
   uint8_t lat_1MSB = (lat_fixed & 0xFF000000) >> 24;
   uint8_t lat_2MSB = (lat_fixed & 0x00FF0000) >> 16;
   uint8_t lat_3MSB = (lat_fixed & 0x0000FF00) >> 8;
@@ -49,20 +50,20 @@ void transmit_MSG(int32_t lat_fixed, int32_t lng_fixed) {
       
   byte byteArr[] = {lat_1MSB, lat_2MSB, lat_3MSB, lat_4MSB,
     lng_1MSB, lng_2MSB, lng_3MSB, lng_4MSB,
-      phase_union.bytes_array[0], 
-      phase_union.bytes_array[1], 
+      phase_union.bytes_array[0],
+      phase_union.bytes_array[1],
       phase_union.bytes_array[2],
-      phase_union.bytes_array[3],
-      packet_counter
-    //  (packet_counter & 0xFF000000) >> 24,
-    //   (packet_counter & 0x00FF0000) >> 16,
-    //    (packet_counter & 0x0000FF00) >> 8,
-    //     (packet_counter & 0x000000FF) >> 0
+      phase_union.bytes_array[3]
+      // packet_counter This just counts the number of packets received so far (Noah)
+    //  (packet_counter & 0xFF000000) >> 24, This was already commented out (Noah)
+    //   (packet_counter & 0x00FF0000) >> 16, See above note
+    //    (packet_counter & 0x0000FF00) >> 8, See above note
+    //     (packet_counter & 0x000000FF) >> 0 See above note
       }; 
   Serial.print("Packet number: ");
   Serial.println(packet_counter++);
   
-  int state = radio.transmit(byteArr, 13);
+  int state = radio.transmit(byteArr, 12);
   
   if (state == RADIOLIB_ERR_NONE) { 
 
@@ -102,12 +103,12 @@ void setup()
   GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA); 
   GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ); // 1 Hz update rate for GPS location 
   GPS.sendCommand(PGCMD_ANTENNA); 
-  delay(1000);
+  delay(1000); //Maybe add a delay to see if this works
   GPSSerial.println(PMTK_Q_RELEASE); 
   
   // init LoRa radio with default settings
-  int state = radio.begin(915.0, 250.0, 9, 5, 0x34, 20, 10, 0, false); // Check this
-  // int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false);
+  int state = radio.begin(915.0, 250.0, 9, 5, 0x34, 20, 10, 0, false);
+  // int state = radio.begin(903.9, 250.0, 12, 5, 0x34, 20, 10, 0, false); This was the og
   if (state == RADIOLIB_ERR_NONE) { 
     Serial.println(F("success!")); 
   } else {
@@ -127,6 +128,7 @@ enum RSSI_GPS_int_st_t {
 uint32_t lat_fixed = 0;
 uint32_t lng_fixed = 0;
 double rssi_1 = 0.0;
+// uint32_t indext = 0;
 
 void debugStatePrint(){
   static enum RSSI_GPS_int_st_t previousState;
@@ -177,7 +179,7 @@ void loop()
             current_state = data_send_st;
           }
         }
-        else {
+        else { // This is just for testing when inside (Noah)
           lat_fixed = 0xFFAAFFAA;
           lng_fixed = 0xCCBBCCBB;
           current_state = data_send_st;
@@ -186,8 +188,7 @@ void loop()
       }
     case data_send_st:
     {
-     int bytes_in = myWire.requestFrom(0x28, 4);    // request 6 bytes from slave device #2
-
+     int bytes_in = myWire.requestFrom(0x29, 4);    // request 4 bytes from slave device #2
      while(myWire.available())    // slave may send less than requested
      {
         Serial.print("Bytes available: ");
@@ -209,10 +210,12 @@ void loop()
           Serial.print(" ");
           idx++;
         }
+        // phase_union.double_var = 5.0; // This is for testing
         double rssi_1 = phase_union.double_var;
         Serial.print(rssi_1);
         Serial.println();
       }
+
       transmit_MSG(lat_fixed, lng_fixed);
       digitalWrite(8, LOW);
       current_state = interrupt_write_st;

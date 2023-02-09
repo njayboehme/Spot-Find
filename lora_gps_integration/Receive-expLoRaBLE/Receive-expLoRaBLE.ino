@@ -40,16 +40,17 @@ void loop() {
   Serial.print("."); 
 
   // Receive data as a byte array.
-  byte byteArr[13];
-  int state = radio.receive(byteArr, 13);
+  byte byteArr[12];
+  int state = radio.receive(byteArr, 12);
   int32_t lat_fixed_recovered = (byteArr[0] << 24) | (byteArr[1] << 16) | (byteArr[2] << 8) | byteArr[3];
   int32_t lng_fixed_recovered = (byteArr[4] << 24) | (byteArr[5] << 16) | (byteArr[6] << 8) | byteArr[7];
-  for(uint8_t i = 0; i < 4; i++){
+  for(uint8_t i = 0; i < 4; i++){ 
     rssi_union.rssi_rec_arr[i] = byteArr[i + 8];
   }
   //uint32_t packet_counter_rec = (byteArr[12] << 24) | (byteArr[13] << 16) | (byteArr[14] << 8) | byteArr[15];
   // uint32_t packet_counter_rec = (byteArr[12] << 24) | (byteArr[13] << 16) | (byteArr[14] << 8) | byteArr[15];
-  uint8_t packet_counter_rec = byteArr[12];
+  // uint8_t packet_counter_rec = byteArr[12]; // Use this when sending packet_counter
+  // rssi_union.rssi_rec = byteArr[8]; This whole line was added by me
 
   if (state == RADIOLIB_ERR_NONE) {
     // packet was successfully received

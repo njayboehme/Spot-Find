@@ -3,7 +3,16 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/**",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/components",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/components/driver",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/components/driver/include",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/components/spi_flash/sim/stubs/freertos/include/freertos",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/components/esp_wifi/include",
+                "C:/Espressif/frameworks/esp-idf-v4.4.3/components/esp_wifi",
+                "C:/Users/njboe/esp/esp-idf/components/newlib/platform_include/sys",
+                "C:/Users/njboe/esp/esp-idf/components/newlib/platform_include"
             ],
             "defines": [
                 "_DEBUG",
