@@ -299,6 +299,9 @@ void config_print() {
     printf("SEND_CSI_TO_SERIAL: %d\n", SEND_CSI_TO_SERIAL);
     printf("SEND_CSI_TO_SD: %d\n", SEND_CSI_TO_SD);
     printf("-----------------------\n");
+    printf("SLAVE_ADDRESS: %0x\n", CONFIG_I2C_SLAVE_ADDRESS);
+    printf("SLAVE_SCL: %0d\n", CONFIG_I2C_SLAVE_SCL);
+    printf("SLAVE_SDA: %0d\n", CONFIG_I2C_SLAVE_SDA);
     printf("\n\n\n\n\n\n\n\n");
 }
 
@@ -314,7 +317,7 @@ void passive_init() {
     };
 
     curChannel = WIFI_CHANNEL;
-    // curChannel = 4;
+    //curChannel = 4;
 
     esp_wifi_set_promiscuous(true);
     esp_wifi_set_promiscuous_filter(&filt);
@@ -332,6 +335,9 @@ static esp_err_t i2c_slave_init(void)
     conf_slave.mode = I2C_MODE_SLAVE;
     conf_slave.slave.addr_10bit_en = 0;
     conf_slave.slave.slave_addr = ESP_SLAVE_ADDR;
+    conf_slave.slave.maximum_speed = I2C_SCLK_MAX; // Needed to add this because of the esp-idf version we are using
+    conf_slave.clk_flags = 0; // Needed to add this because of the esp-idf version we are using
+    printf("Slave Max Speed: %d", I2C_SCLK_MAX);
     i2c_param_config(i2c_slave_port, &conf_slave);
     return i2c_driver_install(i2c_slave_port, conf_slave.mode, I2C_SLAVE_RX_BUF_LEN, I2C_SLAVE_TX_BUF_LEN, 0);
 }
@@ -391,6 +397,8 @@ void app_main(void)
 }
 */
 
+
+// Use this for help: https://docs.espressif.com/projects/esp-idf/en/v4.3/esp32/api-reference/peripherals/i2c.html
 extern "C" void app_main(void) {
     gpio_pad_select_gpio(BLINK_GPIO);
     gpio_set_direction(BLINK_GPIO, GPIO_MODE_OUTPUT);

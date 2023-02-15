@@ -179,16 +179,16 @@ void loop()
             current_state = data_send_st;
           }
         }
-        else { // This is just for testing when inside (Noah)
-          lat_fixed = 0xFFAAFFAA;
-          lng_fixed = 0xCCBBCCBB;
-          current_state = data_send_st;
-        }
+        // else { // This is just for testing when inside a building (Noah)
+        //   lat_fixed = 0xFFAAFFAA;
+        //   lng_fixed = 0xCCBBCCBB;
+        //   current_state = data_send_st;
+        // }
         break;
       }
     case data_send_st:
     {
-     int bytes_in = myWire.requestFrom(0x29, 4);    // request 4 bytes from slave device #2
+     int bytes_in = myWire.requestFrom(0x29, 4);    // request 4 bytes from slave device (esp32)
      while(myWire.available())    // slave may send less than requested
      {
         Serial.print("Bytes available: ");
