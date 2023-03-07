@@ -179,11 +179,12 @@ void loop()
             current_state = data_send_st;
           }
         }
-        // else { // This is just for testing when inside a building (Noah)
-        //   lat_fixed = 0xFFAAFFAA;
-        //   lng_fixed = 0xCCBBCCBB;
-        //   current_state = data_send_st;
-        // }
+        // This is just for testing when inside a building (Noah)
+        else { 
+          lat_fixed = 0xFFAAFFAA;
+          lng_fixed = 0xCCBBCCBB;
+          current_state = data_send_st;
+        }
         break;
       }
     case data_send_st:

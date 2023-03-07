@@ -17,6 +17,7 @@ EXIT = "Exit"
 INIT_TITLE = "Signal Localization Start-Up"
 HEAT_MAP_TITLE = "Heat Map"
 CSV_READ_FILE = r"C:\\Users\\njboe\Desktop\\Capstone\Spot-Find\\heatmap_visualization\data_points_2022-03-28 09_30_26.258499.csv"
+UPDATE_RATE = 500 # This dictates how fast the GUI will update
 
 # Used this tutorial: 
 # https://pythonprogramming.net/embedding-live-matplotlib-graph-tkinter-gui/
@@ -50,8 +51,9 @@ class StartPage(tk.Frame):
         label = tk.Label(self)
         label.pack(pady=10, padx=10)
 
-        diagnosticsButton = ttk.Button(self, text=R_D, command=lambda: controller.showFrame(DiagnosticsPage))
-        diagnosticsButton.pack(fill='x')
+        # Never got around to this. 
+        # diagnosticsButton = ttk.Button(self, text=R_D, command=lambda: controller.showFrame(DiagnosticsPage))
+        # diagnosticsButton.pack(fill='x')
 
         heatMapButton = ttk.Button(self, text=EXE, command=lambda: controller.showFrame(HeatMapPage))
         heatMapButton.pack(fill='x')
@@ -94,14 +96,15 @@ class HeatMapPage(tk.Frame):
         self.animate()
     
     def animate(self):
-        extent_array, heatmap = self.heatMap.useCSV()
+        # extent_array, heatmap = self.heatMap.useCSV(CSV_READ_FILE, True) # Use this for testing with a csv
+        extent_array, heatmap = self.heatMap.useSerial()
 
         # If we have already plotted the first point we will remove the last point, 
         # redraw that point as a grey x and then draw the newest point as a green dot
         if len(self.heatMap.location_x) > 1:
             self.prev_point[0].remove()
             self.axes.plot(self.heatMap.location_x[-2], self.heatMap.location_y[-2], 'x', color=(0.9, 0.9, 1.0), alpha=0.8)
-        self.prev_point = self.axes.plot(self.heatMap.location_x[-1], self.heatMap.location_y[-1], 'o', color='green')
+            self.prev_point = self.axes.plot(self.heatMap.location_x[-1], self.heatMap.location_y[-1], 'o', color='green')
         
         # If we have a new heatmap/extent_array to show
         if extent_array is not None:
@@ -110,7 +113,7 @@ class HeatMapPage(tk.Frame):
             plt.ylim([extent_array[2], extent_array[3]])
             
         self.canvas.draw_idle()
-        self.after(500, self.animate)
+        self.after(UPDATE_RATE, self.animate)
 
 app = LocalizationGUI()
 # app.attributes('-fullscreen', True)
