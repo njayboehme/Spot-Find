@@ -1,3 +1,4 @@
+# This file was just used for testing
 import numpy as np
 import serial.tools.list_ports
 import serial
